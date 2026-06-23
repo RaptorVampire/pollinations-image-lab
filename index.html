@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Pollinations Image Lab</title>
+  <meta name="description" content="AI Image Generator powered by Pollinations.ai">
+  <meta property="og:title" content="Pollinations Image Lab">
+  <meta property="og:description" content="Generate AI images using Pollinations.ai">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#d946ef">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="particles" id="particles"></div>
+  <div class="app">
+    <header>
+      <div style="display:flex; align-items:center; gap:14px;">
+        <img src="https://raw.githubusercontent.com/pollinations/pollinations/main/assets/logo.svg"
+             alt="Pollinations Logo"
+             style="height:44px; width:auto; background:#ffffff; padding:8px; border-radius:14px; box-shadow: 0 4px 12px rgba(0,0,0,0.3);">
+        <div>
+          <h1>image lab</h1>
+          <div style="font-size:12px;color:var(--text2);margin-top:4px;">
+            Built with <a href="https://pollinations.ai" target="_blank" style="color:var(--accent);text-decoration:none;">Pollinations.ai</a>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex; gap:12px;">
+        <button class="icon-btn" id="historyBtn" aria-label="History">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span class="badge" id="historyCount" style="display:none;">0</span>
+        </button>
+        <button class="icon-btn" id="settingsBtn" aria-label="Settings">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </button>
+      </div>
+    </header>
+    <div class="prompt-area">
+      <div class="input-wrapper">
+        <input type="text" id="promptInput" placeholder="cyberpunk samurai in neon rain..." autocomplete="off" maxlength="500">
+      </div>
+      <button class="generate-btn" id="generateBtn">
+        <span id="btnText">Generate</span>
+        <span id="btnSpinner" style="display:none;" class="spinner"></span>
+      </button>
+    </div>
+    <div class="result-card" id="resultCard">
+      <img id="resultImage" src="" alt="Generated artwork" loading="lazy">
+      <div class="result-actions">
+        <button class="action-btn" id="downloadBtn">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Save
+        </button>
+        <button class="action-btn" id="copyUrlBtn">
+          <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copy
+        </button>
+      </div>
+    </div>
+  
+    <div style="margin-top:18px;padding:16px;border-radius:18px;background:rgba(255,255,255,0.04);text-align:center;font-size:13px;color:var(--text2);border:1px solid rgba(255,255,255,0.08);">
+      <div style="margin-bottom:8px;">
+        Powered by
+        <a href="https://pollinations.ai" target="_blank" style="color:var(--accent);font-weight:700;text-decoration:none;">
+          Pollinations.ai
+        </a>
+      </div>
+      <a href="https://github.com/RaptorVampire/pollinations-image-lab"
+         target="_blank"
+         style="display:inline-flex;align-items:center;gap:8px;padding:12px 18px;border-radius:14px;background:#24292e;color:white;text-decoration:none;font-weight:700;">
+         <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor">
+           <path d="M8 0C3.58 0 0 3.58 0 8a8.01 8.01 0 0 0 5.47 7.59c.4.07.55-.17.55-.38
+           0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52
+           -.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.64-.89
+           -3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.65 7.65 0 0 1 4 0
+           c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95
+           .29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+         </svg>
+         View Source on GitHub
+      </a>
+    </div>
+  </div>
+
+  <div class="overlay-bg" id="overlayBg"></div>
+
+  <div class="panel" id="settingsPanel">
+    <div class="panel-header">
+      <h2>settings</h2>
+      <button class="close-panel" id="closeSettings">✕</button>
+    </div>
+    <div class="setting-row">
+      <label>API Key</label>
+      <input type="password" id="apiKeyInput" placeholder="sk_... or pk_...">
+      <div class="toggle-row" style="margin-top:5px;">
+        <span style="font-size:0.8rem;">show key</span>
+        <div class="toggle" id="showKeyToggle"></div>
+      </div>
+    </div>
+    <div class="setting-row">
+      <label>Model</label>
+      <div class="model-select-row">
+        <select id="modelSelect"></select>
+        <button class="refresh-btn" id="refreshModelsBtn" title="Refresh models">
+          <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+        </button>
+      </div>
+      <div id="modelLoading" style="font-size:0.75rem; color:var(--text2);">loading models...</div>
+    </div>
+    <div style="display:flex; gap:12px;">
+      <div class="setting-row" style="flex:1;">
+        <label>Width</label>
+        <input type="number" id="widthInput" value="1024" min="64" max="2048" step="64">
+      </div>
+      <div class="setting-row" style="flex:1;">
+        <label>Height</label>
+        <input type="number" id="heightInput" value="1024" min="64" max="2048" step="64">
+      </div>
+    </div>
+    <div class="setting-row">
+      <label>Seed (optional)</label>
+      <input type="number" id="seedInput" placeholder="random" step="1">
+    </div>
+    <div class="toggle-row">
+      <span>Transparent</span>
+      <div class="toggle" id="transparentToggle"></div>
+    </div>
+    <button class="btn" id="saveSettingsBtn" style="margin-top:8px;">Save Settings</button>
+    <button class="btn ghost" id="clearHistoryBtn">Clear History</button>
+  </div>
+
+  <div class="panel" id="historyPanel">
+    <div class="panel-header">
+      <h2>history</h2>
+      <button class="close-panel" id="closeHistory">✕</button>
+    </div>
+    <div class="history-list" id="historyList"></div>
+    <div class="empty-state" id="emptyHistory">your creations will appear here</div>
+  </div>
+
+  <div class="modal" id="apiKeyModal">
+    <h3>api key</h3>
+    <p style="color:var(--text2);">Get your Pollinations API key at <a href="https://enter.pollinations.ai" target="_blank" style="color:var(--accent); font-weight:600;">enter.pollinations.ai</a></p>
+    <input type="password" id="modalApiKeyInput" placeholder="sk_... or pk_...">
+    <div class="btn-group">
+      <button class="btn" id="modalSaveKey">Save</button>
+      <button class="btn ghost" id="modalSkip">Later</button>
+    </div>
+  </div>
+
+  <div class="modal" id="imageDetailModal">
+    <h3 id="detailPrompt"></h3>
+    <img id="detailImage" src="" alt="Detail view" style="width:100%; border-radius:16px;">
+    <div class="detail-actions">
+      <button class="btn" id="detailDownloadBtn">
+        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download
+      </button>
+      <button class="btn ghost" id="detailCopyPromptBtn">
+        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        Copy Prompt
+      </button>
+    </div>
+    <button class="btn ghost" id="closeDetailModal" style="margin-top:8px;">Close</button>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
