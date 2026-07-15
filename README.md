@@ -90,7 +90,7 @@ Generate AI images with the latest available Pollinations models using a clean, 
 
 <img src="assets/1.png" width="48%">
 
-<img src="assets/2.png" width="48%">
+<img src="assets/2.jpg" width="48%">
 
 </p>
 
@@ -98,7 +98,7 @@ Generate AI images with the latest available Pollinations models using a clean, 
 
 <img src="assets/3.png" width="48%">
 
-<img src="assets/4.png" width="48%">
+<img src="assets/4.jpg" width="48%">
 
 </p>
 
