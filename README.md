@@ -20,10 +20,6 @@ Generate AI images with the latest available Pollinations models using a clean, 
 <img src="https://img.shields.io/github/forks/RaptorVampire/pollinations-image-lab?style=for-the-badge" alt="Forks">
 </a>
 
-<a href="https://github.com/RaptorVampire/pollinations-image-lab/issues">
-<img src="https://img.shields.io/github/issues/RaptorVampire/pollinations-image-lab?style=for-the-badge" alt="Issues">
-</a>
-
 <a href="https://github.com/RaptorVampire/pollinations-image-lab/blob/main/LICENSE">
 <img src="https://img.shields.io/github/license/RaptorVampire/pollinations-image-lab?style=for-the-badge" alt="License">
 </a>
