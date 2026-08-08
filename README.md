@@ -330,7 +330,7 @@ If you're planning a significant change, please open an issue first so the propo
 
 ### ✨ Special Thanks
 
-A big thank you to our first contributor, [@devyemariyam45-tech](https://github.com/devyemariyam45-tech), for the fantastic pull request that improved the image generation URL builder and API integration. Your clean coding approach is much appreciated! 🚀
+A big thank you to our first active contributor, [@devyemariyam45-tech](https://github.com/devyemariyam45-tech), for multiple fantastic pull requests that improved the image generation URL builder and added prompt enhancement for better AI results. Your clean coding approach is much appreciated! 🚀
 
 ---
 
