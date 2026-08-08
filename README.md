@@ -328,6 +328,11 @@ feel free to open an Issue or Pull Request.
 
 If you're planning a significant change, please open an issue first so the proposed changes can be discussed before implementation.
 
+
+### ✨ Special Thanks
+
+A big thank you to our first contributor, [@devyemariyam45-tech](https://github.com/devyemariyam45-tech), for the fantastic pull request that improved the image generation URL builder and API integration. Your clean coding approach is much appreciated! 🚀
+
 ---
 
 # Support
@@ -350,4 +355,4 @@ Stars help more developers discover the project and motivate future development.
 
 # License
 
-Released under the MIT License.
+Released under the [MIT License](https://github.com/RaptorVampire/pollinations-image-lab/blob/main/LICENSE).
