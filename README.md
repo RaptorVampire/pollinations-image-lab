@@ -134,7 +134,6 @@ Generate images using the latest Pollinations models with a clean and responsive
 
 - Multiple image models
 - Automatic model discovery
-- Prompt generation
 - Image preview
 - Image download
 
