@@ -1,5 +1,5 @@
 import { loadSettings, saveSettings, applySettingsToForm, gatherFormSettings } from './modules/settings.js';
-import { fetchAvailableModels } from './modules/api.js';
+import { fetchAvailableModels, resolveModelId } from './modules/api.js';
 import { generateImage } from './modules/generator.js';
 import { getHistory, clearHistory, deleteHistoryItem } from './modules/history.js';
 import { showToast, copyText, escapeHTML, getTimeAgo } from './modules/utils.js';
@@ -58,7 +58,7 @@ function updateBadge() {
 function populateModelSelect(models) {
   modelSelect.innerHTML = models.length === 0
     ? '<option value="">no models available</option>'
-    : models.map(m => `<option value="${m}">${m}</option>`).join('');
+    : models.map(m => `<option value="${escapeHTML(m.id)}">${escapeHTML(m.id)}</option>`).join('');
 }
 
 function renderHistory() {
@@ -92,14 +92,15 @@ function renderHistory() {
       e.stopPropagation();
       promptInput.value = item.prompt;
       const settings = loadSettings();
-      if (availableModels.includes(item.model)) settings.model = item.model;
+      const model = resolveModelId(availableModels, item.model);
+      if (model) settings.model = model;
       settings.width = item.width;
       settings.height = item.height;
       if (item.seed && item.seed !== 'random') settings.seed = item.seed;
       else settings.seed = '';
       settings.transparent = item.transparent || false;
       saveSettings(settings);
-      applySettingsToForm(settings, modelSelect, apiKeyInput, widthInput, heightInput, seedInput, transparentToggle);
+      applySettingsToForm(settings, availableModels, modelSelect, apiKeyInput, widthInput, heightInput, seedInput, transparentToggle);
       closeAllPanels([settingsPanel, historyPanel], overlayBg);
       showToast('settings applied');
     });
@@ -189,8 +190,7 @@ async function loadModels() {
     modelLoading.textContent = `${models.length} models loaded`;
     modelLoading.style.color = 'var(--success)';
     const settings = loadSettings();
-    if (models.includes(settings.model)) modelSelect.value = settings.model;
-    else if (models.length) modelSelect.value = models[0];
+    modelSelect.value = resolveModelId(models, settings.model) || models[0]?.id || '';
   } catch (err) {
     availableModels = [];
     modelLoading.textContent = 'Failed to load models. Tap refresh to retry.';
@@ -204,7 +204,7 @@ async function loadModels() {
 function init() {
   loadModels();
   const settings = loadSettings();
-  applySettingsToForm(settings, modelSelect, apiKeyInput, widthInput, heightInput, seedInput, transparentToggle);
+  applySettingsToForm(settings, availableModels, modelSelect, apiKeyInput, widthInput, heightInput, seedInput, transparentToggle);
   updateBadge();
 
   if (!settings.apiKey) {
@@ -234,7 +234,7 @@ function init() {
 
   settingsBtn.addEventListener('click', () => {
     if (settingsPanel.classList.contains('open')) closeAllPanels([settingsPanel, historyPanel], overlayBg);
-    else { applySettingsToForm(loadSettings(), modelSelect, apiKeyInput, widthInput, heightInput, seedInput, transparentToggle); togglePanel(settingsPanel, overlayBg, true); }
+    else { applySettingsToForm(loadSettings(), availableModels, modelSelect, apiKeyInput, widthInput, heightInput, seedInput, transparentToggle); togglePanel(settingsPanel, overlayBg, true); }
   });
   historyBtn.addEventListener('click', () => {
     if (historyPanel.classList.contains('open')) closeAllPanels([settingsPanel, historyPanel], overlayBg);
@@ -270,7 +270,7 @@ function init() {
       const s = loadSettings();
       s.apiKey = key;
       saveSettings(s);
-      applySettingsToForm(s, modelSelect, apiKeyInput, widthInput, heightInput, seedInput, transparentToggle);
+      applySettingsToForm(s, availableModels, modelSelect, apiKeyInput, widthInput, heightInput, seedInput, transparentToggle);
       closeModal(apiKeyModal, overlayBg);
       showToast('key saved');
     }
