@@ -1,5 +1,3 @@
-import { STORAGE_KEYS, DEFAULT_SETTINGS } from './config.js';
-
 export async function fetchAvailableModels() {
   const res = await fetch('https://gen.pollinations.ai/image/models');
 
@@ -13,7 +11,12 @@ export async function fetchAvailableModels() {
     throw new Error('Invalid response format');
   }
 
-  return data.map(m => m.name || m.id).filter(Boolean);
+  return data.map(m => ({ id: m.name || m.id, aliases: m.aliases || [] })).filter(m => m.id);
+}
+
+export function resolveModelId(models, id) {
+  return models.find(m => m.id === id)?.id
+    || models.find(m => m.aliases.includes(id))?.id;
 }
 
 export function buildImageUrl(prompt, settings) {

@@ -1,4 +1,5 @@
 import { STORAGE_KEYS, DEFAULT_SETTINGS } from './config.js';
+import { resolveModelId } from './api.js';
 
 export function loadSettings() {
   try {
@@ -13,11 +14,10 @@ export function saveSettings(settings) {
   localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(settings));
 }
 
-export function applySettingsToForm(settings, modelSelect, apiKeyInput, widthInput, heightInput, seedInput, transparentToggle) {
+export function applySettingsToForm(settings, models, modelSelect, apiKeyInput, widthInput, heightInput, seedInput, transparentToggle) {
   apiKeyInput.value = settings.apiKey || '';
   if (modelSelect.options.length > 0) {
-    const found = Array.from(modelSelect.options).some(opt => opt.value === settings.model);
-    modelSelect.value = found ? settings.model : modelSelect.options[0]?.value || '';
+    modelSelect.value = resolveModelId(models, settings.model) || modelSelect.options[0]?.value || '';
   }
   widthInput.value = settings.width || 1024;
   heightInput.value = settings.height || 1024;
